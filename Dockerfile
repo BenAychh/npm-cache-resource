@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:9
+FROM node:carbon
 
 MAINTAINER Yeray Medina López <ymedlop@gmail.com>
 
@@ -17,22 +17,21 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.schema-version="1.0" \
       org.label-schema.license="MIT"
 
-RUN apk add --update \
+RUN apt-get update && apt-get -y install \
     openssl \
     sed \
     ca-certificates \
     bash \
-    openssh \
+    openssh-server \
     make \
     git \
     jq \
-    libstdc++ \
     libpng-dev \
     nasm \
-    build-base \
     python \
     python-dev \
-  && rm -rf /var/cache/apk/*
+    unzip \
+  && rm -rf /var/lib/apt/lists/*
 
 # according to Brian Clements, can't `git pull` unless we set these
 RUN git config --global user.email "git@localhost" && \
